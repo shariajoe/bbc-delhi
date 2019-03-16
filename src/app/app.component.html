@@ -5,8 +5,8 @@
 <div class="container content" *ngIf="article">
   <div class="row">
     <div class="col-lg-8 col-md-8 col-sm-12 col-12">
-      <h1 style="margin: 20px 0px; line-height: normal">{{article['hero_1_title']}}</h1>
-      <img src="{{article.hero_1_image}}" class="img-fluid" alt="{{article.hero_1_title}}" style="max-width: 100%; height: auto"/>
+      <h1 style="margin: 20px 0px; line-height: normal;font-weight: bold">{{article['hero_1_title']}}</h1>
+      <img src="{{article.hero_1_image}}" class="img-fluid" alt="Delhi smog" style="max-width: 100%; height: auto"/>
       <div style="margin: 20px 0px;">
         <p>{{article['p_1_value']}}</p>
         <p>{{article['p_2_value']}}</p>
@@ -15,11 +15,25 @@
         <p>{{article['p_5_value']}}</p>
       </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-12 col-12" style="position: relative">
-        <div class="row" style="margin: 20px 0px;border: 1px solid #ddd;height: 600px; font-size: 12px; padding: 20px;">
-          <div class="col-12 text-center">
-            <p>{{article['compare-tabs_1_method']}}</p>
-            <h4>{{article['compare-tabs_1_title']}}</h4>
+    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+        <div class="row" style="margin: 20px 0px; background: #ddd; font-size: 16px; padding: 20px; ">
+          <div class="col-12">
+            <div>
+                <p>{{article['compare-tabs_1_method']}}</p>
+                <h4>{{article['compare-tabs_1_title']}}</h4>
+            </div>
+            
+            <div style="height: 500px; overflow: scroll">
+              <div *ngFor="let city of groupedCityData">
+                <div style="margin-bottom: 10px" placement="top"
+                ngbPopover="Ciggarettes smoked: {{article[city[2]]}} Particulate matter: {{article[city[1]]}}" popoverTitle="{{article[city[0]]}}">
+                  {{article[city[0]]}}
+                  <div style="width: 100%; height:20px; background-color: #000">
+                    <div style="height:20px; background-color: #AC2C24"  [style.width.%]="getProgressWidth(article[city[2]])"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
     </div>
