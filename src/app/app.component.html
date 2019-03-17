@@ -1,43 +1,132 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="header_bar">
-  <div class="container"><img alt="BBC Logo" src="assets/bbc.png" class="logo"></div>
+  <div class="container row">
+    <div class="col-6 no-padding">
+      <img alt="BBC Logo" src="assets/bbc.png" class="logo" />
+    </div>
+    <div class="col-6 text-right no-padding">
+      <a
+        class="langToggle active"
+        (click)="setLang('en')"
+        [ngClass]="{
+          active: articleService.articleUrl === englishSource
+        }"
+      >
+        en
+      </a>
+      <a
+        class="langToggle active"
+        (click)="setLang('hi')"
+        [ngClass]="{
+          active: articleService.articleUrl === hindiSource
+        }"
+      >
+        hi
+      </a>
+    </div>
+  </div>
 </div>
-<div class="container content" *ngIf="article">
-  <div class="row">
+<div class="container content">
+  <div class="row" *ngIf="article">
     <div class="col-lg-8 col-md-8 col-sm-12 col-12">
-      <h1 style="margin: 20px 0px; line-height: normal;font-weight: bold">{{article['hero_1_title']}}</h1>
-      <img src="{{article.hero_1_image}}" class="img-fluid" alt="Delhi smog" style="max-width: 100%; height: auto"/>
-      <div style="margin: 20px 0px;">
-        <p>{{article['p_1_value']}}</p>
-        <p>{{article['p_2_value']}}</p>
-        <p>{{article['p_3_value']}}</p>
-        <p>{{article['p_4_value']}}</p>
-        <p>{{article['p_5_value']}}</p>
+      <h1 class="content-spacing article-title">
+        {{ article['hero_1_title'] }}
+      </h1>
+      <p class="article_info">
+        <a
+          href="https://www.linkedin.com/in/joseph-sharia-aa2470a6/"
+          class="article_info"
+        >
+          {{ article['article-info_1_byline'] }}</a
+        ><br />
+        {{ article['article-info_1_date'] }} |
+        <a
+          target="_blank"
+          [href]="article['article-info_1_category_url']"
+          class="country-tag"
+        >
+          {{ article['article-info_1_category'] }}
+        </a>
+      </p>
+      <img
+        src="{{ article.hero_1_image }}"
+        class="img-fluid hero-image"
+        alt="Delhi smog"
+      />
+      <div class="content-spacing">
+        <p>{{ article['p_1_value'] }}</p>
+        <p>{{ article['p_2_value'] }}</p>
+        <p>{{ article['p_3_value'] }}</p>
+        <p>{{ article['p_4_value'] }}</p>
+        <p>{{ article['p_5_value'] }}</p>
       </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-        <div class="row" style="margin: 20px 0px; background: #ddd; font-size: 16px; padding: 20px; ">
-          <div class="col-12">
-            <div>
-                <p>{{article['compare-tabs_1_method']}}</p>
-                <h4>{{article['compare-tabs_1_title']}}</h4>
-            </div>
-            
-            <div style="height: 500px; overflow: scroll">
-              <div *ngFor="let city of groupedCityData">
-                <div style="margin-bottom: 10px" placement="top"
-                ngbPopover="Ciggarettes smoked: {{article[city[2]]}} Particulate matter: {{article[city[1]]}}" popoverTitle="{{article[city[0]]}}">
-                  {{article[city[0]]}}
-                  <div style="width: 100%; height:20px; background-color: #000">
-                    <div style="height:20px; background-color: #AC2C24"  [style.width.%]="getProgressWidth(article[city[2]])"></div>
-                  </div>
+      <div class="row city-holder">
+        <div class="col-12">
+          <p>{{ article['compare-tabs_1_method'] }}</p>
+          <h5>{{ article['compare-tabs_1_title'] }}</h5>
+          <input
+            type="search"
+            placeholder="Search"
+            class="searchBox"
+            id="search-box"
+          />
+          <div class="city-list" *ngIf="groupedCityData.length">
+            <div *ngFor="let city of groupedCityData">
+              <ng-template #popContent>
+                Ciggarettes smoked: {{ article[city[2]] }} <br />
+                Particulate matter: {{ article[city[1]] }} <br />
+                <hr *ngIf="getCigarettes(article[city[2]]).length" />
+                <img
+                  *ngFor="let cigar of getCigarettes(article[city[2]])"
+                  src="assets/ciggrette_icon.png"
+                  class="cigar_icon"
+                />
+              </ng-template>
+              <div
+                class="city-list-item"
+                placement="top"
+                [ngbPopover]="popContent"
+                popoverTitle="{{ article[city[0]] }}"
+              >
+                {{ article[city[0]] }}
+                <div class="city-list-item-progress-holder">
+                  <div
+                    class="city-list-item-progress"
+                    [style.width.%]="getProgressWidth(article[city[2]])"
+                  ></div>
                 </div>
               </div>
             </div>
           </div>
+          <div *ngIf="!groupedCityData.length" class="text-center">
+            City not listed
+          </div>
         </div>
+      </div>
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+      <div class="content-spacing">
+        <h5>{{ article['p_6_value'] }}</h5>
+        <p>{{ article['p_7_value'] }}</p>
+        <p>{{ article['p_8_value'] }}</p>
+        <p>{{ article['p_9_value'] }}</p>
+        <p>{{ article['p_10_value'] }}</p>
+      </div>
     </div>
   </div>
 </div>
+<footer class="page-footer custom-footer">
+  <div class="footer-copyright text-center py-3">
+    © 2019 Copyright:
+    <a
+      href="https://www.linkedin.com/in/joseph-sharia-aa2470a6/"
+      class="custom-footer"
+    >
+      {{ article['article-info_1_byline'] }}</a
+    >
+  </div>
+</footer>
 
 <router-outlet></router-outlet>

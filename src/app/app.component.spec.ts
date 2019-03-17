@@ -1,16 +1,25 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { ArticleService } from '../services/article/article.service';
+import { HttpClientModule } from '@angular/common/http';
+import { englishSource, hindiSource } from './app.config';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        NgbPopoverModule,
+        HttpClientModule
       ],
       declarations: [
         AppComponent
       ],
+      providers: [
+        ArticleService
+      ]
     }).compileComponents();
   }));
 
@@ -18,18 +27,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'bbc-test'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('bbc-test');
-  });
-
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to bbc-test!');
   });
 });
