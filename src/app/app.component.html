@@ -75,7 +75,7 @@
           <div class="city-list" *ngIf="groupedCityData.length">
             <div *ngFor="let city of groupedCityData">
               <ng-template #popContent>
-                Ciggarettes smoked: {{ article[city[2]] }} <br />
+                Cigarettes smoked: {{ article[city[2]] }} <br />
                 Particulate matter: {{ article[city[1]] }} <br />
                 <hr *ngIf="getCigarettes(article[city[2]]).length" />
                 <img
